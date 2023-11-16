@@ -17,4 +17,5 @@ public class Post {
   public User? UserPoster { get; set; }
 
   public Community? CommunityPoster { get; set; }
+  public List<Comment>? Comments { get; set; }
 }

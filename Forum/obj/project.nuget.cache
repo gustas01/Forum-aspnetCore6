@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Rsp7xENjIme3vscaAtv9uiYJ/sDgnXH1zSOYp9cBFTXRXnVxDp//gb23/bY00AGJnZXK49Fp9LRQSP2RlTdsog==",
+  "dgSpecHash": "QaZ2YZJbHufhOOzQBE+0Htqauu2wtUciUVGbPPWMHzSlAHeYDpP7TsQicHlPjYtxvETJTEXRUInkcvwrp6JG5w==",
   "success": true,
   "projectFilePath": "E:\\forum\\Forum\\Forum.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gustavo\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
-    "C:\\Users\\Gustavo\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.25\\microsoft.aspnetcore.authentication.jwtbearer.6.0.25.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.25\\microsoft.aspnetcore.cryptography.internal.6.0.25.nupkg.sha512",

@@ -44,7 +44,6 @@ E:\Forum\Forum\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 E:\Forum\Forum\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\Forum\Forum\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 E:\Forum\Forum\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-E:\forum\Forum\bin\Debug\net6.0\BCrypt.Net-Next.dll
 E:\forum\Forum\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 E:\forum\Forum\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 E:\forum\Forum\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

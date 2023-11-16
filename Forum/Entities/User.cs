@@ -3,10 +3,13 @@
 namespace Forum.Entities;
 public class User : IdentityUser {
 
-  public List<Community>? CommunitiesMember { get; set; }
-  public List<Community>? CommunitiesMod { get; set; }
+  public List<Community>? CommunitiesAsMember { get; set; }
+
+  public List<Community>? CommunitiesAsMod { get; set; }
 
   public List<Post>? Posts { get; set; }
+
+  public List<Comment>? Comments { get; set; }
 
   public string? AvatarUrl { get; set; }
 }

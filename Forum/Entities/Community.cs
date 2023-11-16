@@ -16,7 +16,7 @@ public class Community {
 
   public string? AvatarUrl { get; set; }
 
-  public List<User>? Members { get; set; }
-  public List<User>? Mods { get; set; }
+  public List<User>? UserMembers { get; set; }
+  public List<User>? UserMods { get; set; }
   public List<Post>? Posts { get; set; }
 }

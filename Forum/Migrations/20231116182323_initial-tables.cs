@@ -174,21 +174,21 @@ namespace Forum.Migrations
                 name: "CommunityUserMembers",
                 columns: table => new
                 {
-                    CommunitiesMemberId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MembersId = table.Column<string>(type: "text", nullable: false)
+                    CommunitiesAsMemberId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserMembersId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CommunityUserMembers", x => new { x.CommunitiesMemberId, x.MembersId });
+                    table.PrimaryKey("PK_CommunityUserMembers", x => new { x.CommunitiesAsMemberId, x.UserMembersId });
                     table.ForeignKey(
-                        name: "FK_CommunityUserMembers_AspNetUsers_MembersId",
-                        column: x => x.MembersId,
+                        name: "FK_CommunityUserMembers_AspNetUsers_UserMembersId",
+                        column: x => x.UserMembersId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommunityUserMembers_Communities_CommunitiesMemberId",
-                        column: x => x.CommunitiesMemberId,
+                        name: "FK_CommunityUserMembers_Communities_CommunitiesAsMemberId",
+                        column: x => x.CommunitiesAsMemberId,
                         principalTable: "Communities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -198,21 +198,21 @@ namespace Forum.Migrations
                 name: "CommunityUserMods",
                 columns: table => new
                 {
-                    CommunitiesModId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ModsId = table.Column<string>(type: "text", nullable: false)
+                    CommunitiesAsModId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserModsId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CommunityUserMods", x => new { x.CommunitiesModId, x.ModsId });
+                    table.PrimaryKey("PK_CommunityUserMods", x => new { x.CommunitiesAsModId, x.UserModsId });
                     table.ForeignKey(
-                        name: "FK_CommunityUserMods_AspNetUsers_ModsId",
-                        column: x => x.ModsId,
+                        name: "FK_CommunityUserMods_AspNetUsers_UserModsId",
+                        column: x => x.UserModsId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CommunityUserMods_Communities_CommunitiesModId",
-                        column: x => x.CommunitiesModId,
+                        name: "FK_CommunityUserMods_Communities_CommunitiesAsModId",
+                        column: x => x.CommunitiesAsModId,
                         principalTable: "Communities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -240,6 +240,30 @@ namespace Forum.Migrations
                         name: "FK_Posts_Communities_CommunityPosterId",
                         column: x => x.CommunityPosterId,
                         principalTable: "Communities",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
                         principalColumn: "Id");
                 });
 
@@ -281,14 +305,24 @@ namespace Forum.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommunityUserMembers_MembersId",
-                table: "CommunityUserMembers",
-                column: "MembersId");
+                name: "IX_Comments_PostId",
+                table: "Comments",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommunityUserMods_ModsId",
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommunityUserMembers_UserMembersId",
+                table: "CommunityUserMembers",
+                column: "UserMembersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommunityUserMods_UserModsId",
                 table: "CommunityUserMods",
-                column: "ModsId");
+                column: "UserModsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_CommunityPosterId",
@@ -319,16 +353,19 @@ namespace Forum.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
                 name: "CommunityUserMembers");
 
             migrationBuilder.DropTable(
                 name: "CommunityUserMods");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

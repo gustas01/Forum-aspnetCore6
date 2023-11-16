@@ -7,12 +7,12 @@ public class AppDbContext : IdentityDbContext<User> {
   public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
   public DbSet<Community> Communities { get; set; }
   public DbSet<Post> Posts { get; set; }
+  public DbSet<Comment> Comments { get; set; }
 
   protected override void OnModelCreating(ModelBuilder builder) {
     base.OnModelCreating(builder);
 
-    builder.Entity<Community>().HasMany(c => c.Posts);
-    builder.Entity<Community>().HasMany(c => c.Members).WithMany("CommunitiesMember").UsingEntity(e => e.ToTable("CommunityUserMembers"));
-    builder.Entity<Community>().HasMany(c => c.Mods).WithMany("CommunitiesMod").UsingEntity(e => e.ToTable("CommunityUserMods"));
+    builder.Entity<Community>().HasMany(c => c.UserMembers).WithMany("CommunitiesAsMember").UsingEntity(e => e.ToTable("CommunityUserMembers"));
+    builder.Entity<Community>().HasMany(c => c.UserMods).WithMany("CommunitiesAsMod").UsingEntity(e => e.ToTable("CommunityUserMods"));
   }
 }

@@ -24,32 +24,57 @@ namespace Forum.Migrations
 
             modelBuilder.Entity("CommunityUser", b =>
                 {
-                    b.Property<Guid>("CommunitiesMemberId")
+                    b.Property<Guid>("CommunitiesAsMemberId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("MembersId")
+                    b.Property<string>("UserMembersId")
                         .HasColumnType("text");
 
-                    b.HasKey("CommunitiesMemberId", "MembersId");
+                    b.HasKey("CommunitiesAsMemberId", "UserMembersId");
 
-                    b.HasIndex("MembersId");
+                    b.HasIndex("UserMembersId");
 
                     b.ToTable("CommunityUserMembers", (string)null);
                 });
 
             modelBuilder.Entity("CommunityUser1", b =>
                 {
-                    b.Property<Guid>("CommunitiesModId")
+                    b.Property<Guid>("CommunitiesAsModId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ModsId")
+                    b.Property<string>("UserModsId")
                         .HasColumnType("text");
 
-                    b.HasKey("CommunitiesModId", "ModsId");
+                    b.HasKey("CommunitiesAsModId", "UserModsId");
 
-                    b.HasIndex("ModsId");
+                    b.HasIndex("UserModsId");
 
                     b.ToTable("CommunityUserMods", (string)null);
+                });
+
+            modelBuilder.Entity("Forum.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Forum.Entities.Community", b =>
@@ -308,13 +333,13 @@ namespace Forum.Migrations
                 {
                     b.HasOne("Forum.Entities.Community", null)
                         .WithMany()
-                        .HasForeignKey("CommunitiesMemberId")
+                        .HasForeignKey("CommunitiesAsMemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Forum.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("MembersId")
+                        .HasForeignKey("UserMembersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -323,15 +348,30 @@ namespace Forum.Migrations
                 {
                     b.HasOne("Forum.Entities.Community", null)
                         .WithMany()
-                        .HasForeignKey("CommunitiesModId")
+                        .HasForeignKey("CommunitiesAsModId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Forum.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("ModsId")
+                        .HasForeignKey("UserModsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Forum.Entities.Comment", b =>
+                {
+                    b.HasOne("Forum.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Forum.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Forum.Entities.Post", b =>
@@ -405,8 +445,15 @@ namespace Forum.Migrations
                     b.Navigation("Posts");
                 });
 
+            modelBuilder.Entity("Forum.Entities.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("Forum.Entities.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
