@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Forum.Entities;
-internal class Post {
+public class Post {
+
+  [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+  public Guid Id { get; set; }
 
   [Required]
+  [StringLength(80, ErrorMessage = "Nome deve ter no máximo 80 caracteres")]
   public string? Title { get; set; }
 
   [Required]

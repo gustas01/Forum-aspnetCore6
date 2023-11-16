@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Forum\\Forum\\Forum.csproj": {}
+    "E:\\forum\\Forum\\Forum.csproj": {}
   },
   "projects": {
-    "E:\\Forum\\Forum\\Forum.csproj": {
+    "E:\\forum\\Forum\\Forum.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Forum\\Forum\\Forum.csproj",
+        "projectUniqueName": "E:\\forum\\Forum\\Forum.csproj",
         "projectName": "Forum",
-        "projectPath": "E:\\Forum\\Forum\\Forum.csproj",
+        "projectPath": "E:\\forum\\Forum\\Forum.csproj",
         "packagesPath": "C:\\Users\\Gustavo\\.nuget\\packages\\",
-        "outputPath": "E:\\Forum\\Forum\\obj\\",
+        "outputPath": "E:\\forum\\Forum\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Gustavo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,7 +40,23 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.25, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.25, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.25, )"
             },
@@ -53,6 +69,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[6.0.22, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.33.0, )"
             }
           },
           "imports": [
