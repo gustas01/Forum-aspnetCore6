@@ -2,6 +2,7 @@
 using Forum.Context;
 using Forum.Entities;
 using Forum.Mapper;
+using Forum.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,9 @@ public static class DependencyInjection {
       IConfiguration configuration) {
     //configurações do automapper
     var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MapperProfile()); });
+
     services.AddSingleton(mappingConfig.CreateMapper());
+    services.AddSingleton<TokenService>();
 
     return services;
   }
@@ -24,7 +27,7 @@ public static class DependencyInjection {
 
   public static IServiceCollection AddInfrastructure(this IServiceCollection services,
       IConfiguration configuration) {
-    string key = configuration["Jwt: Key"];
+    string key = configuration["Jwt:Key"];
 
     string stringConection = configuration.GetConnectionString("StringDBConection");
     services.AddDbContext<AppDbContext>(options => options.UseNpgsql(stringConection));
@@ -42,7 +45,7 @@ public static class DependencyInjection {
     ValidateAudience = false,
     ValidateLifetime = true,
     ValidateIssuerSigningKey = true,
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
     ClockSkew = TimeSpan.Zero,
   });
 
