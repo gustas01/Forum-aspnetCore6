@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="IoC\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

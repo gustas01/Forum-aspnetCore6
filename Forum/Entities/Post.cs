@@ -8,7 +8,7 @@ public class Post {
   public Guid Id { get; set; }
 
   [Required]
-  [StringLength(80, ErrorMessage = "Nome deve ter no máximo 80 caracteres")]
+  [StringLength(80, ErrorMessage = "Nome deve ter no máximo {1} caracteres")]
   public string? Title { get; set; }
 
   [Required]
