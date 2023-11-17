@@ -16,14 +16,23 @@ public class UserService {
     _mapper = mapper;
   }
 
-  public async Task<ActionResult<IdentityResult>> Create(RegisterDTO registerDTO) {
+  public async Task<ActionResult<RequestResponseDTO>> Create(RegisterDTO registerDTO) {
     try {
       User user = _mapper.Map<User>(registerDTO);
       IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
-      return result;
+      return new RequestResponseDTO() { Code = 200, Message = $"Usuário {registerDTO.UserName} criado com sucesso", Success = true };
     } catch(Exception ex) {
-      var errors = new IdentityError() { Code = "500", Description = ex.Message };
-      return IdentityResult.Failed(errors);
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
     }
+  }
+
+  public async Task<ActionResult<RequestResponseDTO>> Login(LoginDTO loginDTO) {
+    var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+
+    if(user == null)
+      return new RequestResponseDTO() { Code = 400, Message = "Credenciais inválidas", Success = false };
+
+
+    return new RequestResponseDTO() { Code = 200, Message = _tokenService.GenerateToken(user), Success = true };
   }
 }

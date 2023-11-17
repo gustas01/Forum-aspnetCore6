@@ -27,6 +27,16 @@ public class UserController : ControllerBase {
 
     var result = await _userService.Create(registerDTO);
 
-    return result.Value.Succeeded ? Ok($"Usuário {registerDTO.UserName} criado com sucesso") : BadRequest(result?.Value?.Errors);
+    return result.Value.Success ? Ok($"Usuário {registerDTO.UserName} criado com sucesso") : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
+  }
+
+
+  [HttpPost("login")]
+  public async Task<ActionResult> Login(LoginDTO loginDTO) {
+    if(loginDTO == null)
+      return BadRequest("Crendenciais inválidas!");
+
+    var result = await _userService.Login(loginDTO);
+    return result.Value.Success ? Ok(result.Value) : BadRequest(result?.Value);
   }
 }
