@@ -27,12 +27,15 @@ public class UserService {
   }
 
   public async Task<ActionResult<RequestResponseDTO>> Login(LoginDTO loginDTO) {
-    var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+    try {
+      var user = await _userManager.FindByEmailAsync(loginDTO.Email);
 
-    if(user == null)
-      return new RequestResponseDTO() { Code = 400, Message = "Credenciais inválidas", Success = false };
+      if(user == null)
+        return new RequestResponseDTO() { Code = 400, Message = "Usuário não encontrado", Success = false };
 
-
-    return new RequestResponseDTO() { Code = 200, Message = _tokenService.GenerateToken(user), Success = true };
+      return new RequestResponseDTO() { Code = 200, Message = new { token = _tokenService.GenerateToken(user) }, Success = true };
+    } catch(Exception ex) {
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+    }
   }
 }

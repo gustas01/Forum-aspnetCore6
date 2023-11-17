@@ -37,6 +37,6 @@ public class UserController : ControllerBase {
       return BadRequest("Crendenciais inválidas!");
 
     var result = await _userService.Login(loginDTO);
-    return result.Value.Success ? Ok(result.Value) : BadRequest(result?.Value);
+    return result.Value.Success ? Ok(result.Value.Message) : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
   }
 }
