@@ -1,18 +1,20 @@
-﻿using Forum.Services;
+﻿using Forum.DTOs;
+using Forum.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase {
-  private readonly TokenService _tokenService;
+  private readonly UserService _userService;
 
-  public UserController(TokenService tokenService) {
-    _tokenService = tokenService;
+
+  public UserController(UserService userService) {
+    _userService = userService;
   }
 
-  [HttpPost]
-  public async Task<ActionResult> Create() {
+  [HttpPost("register")]
+  public async Task<ActionResult> Create(RegisterDTO registerDTO) {
     //Regex PasswordValidations = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
     //string password = "123Aa!";
 
@@ -20,8 +22,11 @@ public class UserController : ControllerBase {
     //  return Ok("Senha pode ser usada");
     //else
     //  return BadRequest("Senha inválida");
+    if(registerDTO == null)
+      return BadRequest("Usuário deve ser informado");
 
-    string token = _tokenService.GenerateToken(new Entities.User { UserName = "gustas", Id = "123321" });
-    return Ok(token);
+    var result = await _userService.Create(registerDTO);
+
+    return result.Value.Succeeded ? Ok($"Usuário {registerDTO.UserName} criado com sucesso") : BadRequest(result?.Value?.Errors);
   }
 }
