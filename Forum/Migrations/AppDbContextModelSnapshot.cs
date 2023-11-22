@@ -59,7 +59,6 @@ namespace Forum.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("PostId")

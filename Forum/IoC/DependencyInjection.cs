@@ -19,6 +19,7 @@ public static class DependencyInjection {
     services.AddSingleton(mappingConfig.CreateMapper());
     services.AddSingleton<TokenService>();
     services.AddTransient<UserService>();
+    services.AddTransient<CommentService>();
 
     return services;
   }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Forum.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231116182323_initial-tables")]
+    [Migration("20231122185757_initial-tables")]
     partial class initialtables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,6 @@ namespace Forum.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("PostId")
