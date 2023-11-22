@@ -20,6 +20,7 @@ public class UserService {
     try {
       User user = _mapper.Map<User>(registerDTO);
       IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
+      if(!result.Succeeded) return new RequestResponseDTO() { Code = 400, Message = $"{result.Errors.First().Description}", Success = false };
       return new RequestResponseDTO() { Code = 200, Message = $"Usuário {registerDTO.UserName} criado com sucesso", Success = true };
     } catch(Exception ex) {
       return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
@@ -30,12 +31,29 @@ public class UserService {
     try {
       var user = await _userManager.FindByEmailAsync(loginDTO.Email);
 
-      if(user == null)
-        return new RequestResponseDTO() { Code = 400, Message = "Usuário não encontrado", Success = false };
+
+      if(user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+        return new RequestResponseDTO() { Code = 400, Message = "Credenciais inválidas", Success = false };
 
       return new RequestResponseDTO() { Code = 200, Message = new { token = _tokenService.GenerateToken(user) }, Success = true };
     } catch(Exception ex) {
       return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
     }
+  }
+
+  public async Task<ActionResult<RequestResponseDTO>> Update(string? UserId, UpdateUserDTO updateUserDTO) {
+
+    User user = await _userManager.FindByIdAsync(UserId);
+
+    _mapper.Map(updateUserDTO, user);
+
+    if(updateUserDTO.Password != null) {
+      await _userManager.RemovePasswordAsync(user);
+      await _userManager.AddPasswordAsync(user, updateUserDTO.Password);
+    }
+
+    await _userManager.UpdateAsync(user);
+
+    return new RequestResponseDTO() { Code = 200, Message = "Usuário atualizado com sucesso", Success = true };
   }
 }

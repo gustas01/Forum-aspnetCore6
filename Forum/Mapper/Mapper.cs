@@ -7,5 +7,6 @@ public class MapperProfile : Profile {
   public MapperProfile() {
     //CreateMap<Pizza, CreatePizzaDTO>().ReverseMap();
     CreateMap<User, RegisterDTO>().ReverseMap();
+    CreateMap<User, UpdateUserDTO>().ReverseMap();
   }
 }

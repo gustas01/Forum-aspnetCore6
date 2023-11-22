@@ -1,5 +1,6 @@
 ﻿using Forum.DTOs;
 using Forum.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Controllers;
@@ -37,6 +38,18 @@ public class UserController : ControllerBase {
       return BadRequest("Crendenciais inválidas!");
 
     var result = await _userService.Login(loginDTO);
+    return result.Value.Success ? Ok(result.Value.Message) : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
+  }
+
+  [Authorize]
+  [HttpPut]
+  public async Task<ActionResult<string>> Update(UpdateUserDTO updateUserDTO) {
+    if(updateUserDTO == null)
+      return BadRequest("Dados devem ser fornecidos!");
+
+    string? UserID = HttpContext.User.FindFirst("Jti")?.Value;
+
+    var result = await _userService.Update(UserID, updateUserDTO);
     return result.Value.Success ? Ok(result.Value.Message) : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
   }
 }
