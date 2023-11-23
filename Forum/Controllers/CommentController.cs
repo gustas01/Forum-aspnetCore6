@@ -12,11 +12,11 @@ public class CommentController : ControllerBase {
     this.commentService = commentService;
   }
 
-  [HttpPost("{postId}")]
+  [HttpPost("{postId:Guid}")]
   [Authorize]
-  public async Task<ActionResult> Create(CreateCommentDTO createCommentDTO) {
-    string? UserID = HttpContext.User.FindFirst("Jti")?.Value;
-    var result = await commentService.Create(createCommentDTO, UserID);
+  public async Task<ActionResult> Create(Guid postId, CreateCommentDTO createCommentDTO) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await commentService.Create(createCommentDTO, UserId, postId);
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
 }

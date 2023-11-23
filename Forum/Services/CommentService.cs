@@ -17,12 +17,16 @@ public class CommentService {
     _userManager = userManager;
   }
 
-  public async Task<ActionResult<RequestResponseDTO>> Create(CreateCommentDTO createCommentDTO, string UserID) {
+  public async Task<ActionResult<RequestResponseDTO>> Create(CreateCommentDTO createCommentDTO, string UserId, Guid postId) {
     if(createCommentDTO == null || createCommentDTO.Content == String.Empty)
       return new RequestResponseDTO() { Code = 400, Message = "Comentário vazio inválido!", Success = false };
 
     Comment comment = _mapper.Map<Comment>(createCommentDTO);
-    comment.User = await _userManager.FindByIdAsync(UserID);
+    comment.User = await _userManager.FindByIdAsync(UserId);
+    Post? post = await _context.Posts.FindAsync(postId);
+    if(post == null)
+      return new RequestResponseDTO() { Code = 404, Message = "Post apagado ou inexistente!", Success = false };
+    comment.Post = post;
 
     _context.Comments.Add(comment);
     await _context.SaveChangesAsync();
