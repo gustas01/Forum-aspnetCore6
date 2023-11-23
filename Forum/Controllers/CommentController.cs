@@ -19,4 +19,12 @@ public class CommentController : ControllerBase {
     var result = await commentService.Create(createCommentDTO, UserId, postId);
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
+
+  [HttpPut("{commentId:Guid}")]
+  [Authorize]
+  public async Task<ActionResult> Update(Guid commentId, UpdateCommentDTO updateCommentDTO) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await commentService.Update(updateCommentDTO, UserId, commentId);
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  }
 }
