@@ -52,7 +52,7 @@ public class PostService {
 
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(post.UserPoster.Id != userId)
-        return new RequestResponseDTO() { Code = 401, Message = "Impossível alterar comentário de outro usuário", Success = false };
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível alterar comentário de outro usuário", Success = false };
 
       _mapper.Map(updatePostDTO, post);
       _context.Entry(post).State = EntityState.Modified;

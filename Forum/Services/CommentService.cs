@@ -50,7 +50,7 @@ public class CommentService {
 
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(comment.User.Id != userId)
-        return new RequestResponseDTO() { Code = 401, Message = "Impossível alterar comentário de outro usuário", Success = false };
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível alterar comentário de outro usuário", Success = false };
 
       _mapper.Map(updateCommentDTO, comment);
       _context.Entry(comment).State = EntityState.Modified;
@@ -70,7 +70,7 @@ public class CommentService {
 
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(comment.User.Id != userId)
-        return new RequestResponseDTO() { Code = 401, Message = "Impossível apagar comentário de outro usuário", Success = false };
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível apagar comentário de outro usuário", Success = false };
 
       _context.Comments.Remove(comment);
       await _context.SaveChangesAsync();
