@@ -20,6 +20,7 @@ public static class DependencyInjection {
     services.AddSingleton<TokenService>();
     services.AddTransient<UserService>();
     services.AddTransient<CommentService>();
+    services.AddTransient<PostService>();
 
     return services;
   }

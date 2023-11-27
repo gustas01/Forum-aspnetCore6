@@ -26,9 +26,9 @@ public class CommentService {
       Comment comment = _mapper.Map<Comment>(createCommentDTO);
       comment.User = await _userManager.FindByIdAsync(UserId);
       Post? post = await _context.Posts.FindAsync(postId);
-      //if(post == null)
-      //  return new RequestResponseDTO() { Code = 404, Message = "Post apagado ou inexistente!", Success = false };
-      //comment.Post = post;
+      if(post == null)
+        return new RequestResponseDTO() { Code = 404, Message = "Post apagado ou inexistente!", Success = false };
+      comment.Post = post;
 
       _context.Comments.Add(comment);
       await _context.SaveChangesAsync();
