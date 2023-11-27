@@ -18,6 +18,19 @@ public class PostService {
     _userManager = userManager;
   }
 
+  public async Task<ActionResult<RequestResponseDTO>> FindOne(Guid postId) {
+    try {
+      Post? post = await _context.Posts.Include(p => p.UserPoster).Include(p => p.Comments).SingleOrDefaultAsync(p => p.Id == postId);
+
+      if(post == null) return new RequestResponseDTO() { Code = 404, Message = "Post apagado ou inexistente!", Success = false };
+
+      return new RequestResponseDTO() { Code = 200, Message = post, Success = true };
+    } catch(Exception ex) {
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+    }
+  }
+
+
   public async Task<ActionResult<RequestResponseDTO>> Create(CreatePostDTO createPostDTO, string UserId, Guid communityId) {
     try {
       if(createPostDTO.Content == String.Empty || createPostDTO.Content == null || createPostDTO.Title == null || createPostDTO.Title == String.Empty)
