@@ -27,4 +27,12 @@ public class CommentController : ControllerBase {
     var result = await commentService.Update(updateCommentDTO, UserId, commentId);
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
+
+  [HttpDelete("{commentId:Guid}")]
+  [Authorize]
+  public async Task<ActionResult> Delete(Guid commentId) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await commentService.Delete(UserId, commentId);
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  }
 }

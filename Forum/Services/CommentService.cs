@@ -62,6 +62,20 @@ public class CommentService {
 
 
 
-  //public async Task<ActionResult> Create() { }
-  //public async Task<ActionResult> Create() { }
+  public async Task<ActionResult<RequestResponseDTO>> Delete(string? userId, Guid? commentId) {
+    try {
+      Comment? comment = await _context.Comments.Include(c => c.User).SingleOrDefaultAsync(c => c.Id == commentId);
+
+      //verificando se um usuário diferente está tentando modificar comentário do atual
+      if(comment.User.Id != userId)
+        return new RequestResponseDTO() { Code = 401, Message = "Impossível apagar comentário de outro usuário", Success = false };
+
+      _context.Comments.Remove(comment);
+      await _context.SaveChangesAsync();
+      return new RequestResponseDTO() { Code = 200, Message = "Comentário apagado com sucesso!", Success = true };
+    } catch(Exception ex) {
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+    }
+  }
+
 }
