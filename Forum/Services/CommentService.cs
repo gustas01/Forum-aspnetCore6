@@ -68,10 +68,13 @@ public class CommentService {
     try {
       Comment? comment = await _context.Comments.Include(c => c.User).SingleOrDefaultAsync(c => c.Id == commentId);
 
+      if(comment == null) return new RequestResponseDTO() { Code = 404, Message = "Comentário apagado ou inexistente!", Success = false };
+
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(comment.User.Id != userId)
         return new RequestResponseDTO() { Code = 403, Message = "Impossível apagar comentário de outro usuário", Success = false };
 
+      _context.Comments.Attach(comment);
       _context.Comments.Remove(comment);
       await _context.SaveChangesAsync();
       return new RequestResponseDTO() { Code = 200, Message = "Comentário apagado com sucesso!", Success = true };

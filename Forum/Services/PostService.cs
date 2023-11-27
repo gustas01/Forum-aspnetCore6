@@ -52,13 +52,32 @@ public class PostService {
 
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(post.UserPoster.Id != userId)
-        return new RequestResponseDTO() { Code = 403, Message = "Impossível alterar comentário de outro usuário", Success = false };
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível alterar Post de outro usuário", Success = false };
 
       _mapper.Map(updatePostDTO, post);
       _context.Entry(post).State = EntityState.Modified;
       await _context.SaveChangesAsync();
 
-      return new RequestResponseDTO() { Code = 200, Message = "Comentário atualizado com sucesso!", Success = true };
+      return new RequestResponseDTO() { Code = 200, Message = "Post atualizado com sucesso!", Success = true };
+    } catch(Exception ex) {
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+    }
+  }
+
+
+  public async Task<ActionResult<RequestResponseDTO>> Delete(string? userId, Guid? postId) {
+    try {
+      Post? post = await _context.Posts.Include(p => p.UserPoster).Include(p => p.Comments).SingleOrDefaultAsync(p => p.Id == postId);
+
+      if(post == null) return new RequestResponseDTO() { Code = 404, Message = "Post apagado ou inexistente!", Success = false };
+
+      //verificando se um usuário diferente está tentando modificar comentário do atual
+      if(post.UserPoster.Id != userId)
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível apagar Post de outro usuário", Success = false };
+
+      _context.Posts.Remove(post);
+      await _context.SaveChangesAsync();
+      return new RequestResponseDTO() { Code = 200, Message = "Post apagado com sucesso!", Success = true };
     } catch(Exception ex) {
       return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
     }
