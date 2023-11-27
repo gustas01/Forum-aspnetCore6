@@ -46,6 +46,8 @@ public class CommentService {
 
       Comment? comment = await _context.Comments.Include(c => c.User).SingleOrDefaultAsync(c => c.Id == commentId);
 
+      if(comment == null) return new RequestResponseDTO() { Code = 404, Message = "Comentário apagado ou inexistente!", Success = false };
+
       //verificando se um usuário diferente está tentando modificar comentário do atual
       if(comment.User.Id != userId)
         return new RequestResponseDTO() { Code = 401, Message = "Impossível alterar comentário de outro usuário", Success = false };

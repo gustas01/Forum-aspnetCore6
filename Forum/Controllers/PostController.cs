@@ -20,5 +20,13 @@ public class PostController : ControllerBase {
     var result = await postService.Create(createPostDTO, UserId, communityId);
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
-  //public async Task<ActionResult> Comment() { }
+
+
+  [HttpPut("{postId:Guid}")]
+  [Authorize]
+  public async Task<ActionResult> Update(Guid postId, UpdatePostDTO updatePostDTO) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await postService.Update(updatePostDTO, UserId, postId);
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  }
 }

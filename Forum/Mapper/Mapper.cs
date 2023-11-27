@@ -10,5 +10,6 @@ public class MapperProfile : Profile {
     CreateMap<Comment, CreateCommentDTO>().ReverseMap();
     CreateMap<Comment, UpdateCommentDTO>().ReverseMap();
     CreateMap<Post, CreatePostDTO>().ReverseMap();
+    CreateMap<Post, UpdatePostDTO>().ReverseMap();
   }
 }
