@@ -21,6 +21,7 @@ public static class DependencyInjection {
     services.AddTransient<UserService>();
     services.AddTransient<CommentService>();
     services.AddTransient<PostService>();
+    services.AddTransient<CommunityService>();
 
     return services;
   }

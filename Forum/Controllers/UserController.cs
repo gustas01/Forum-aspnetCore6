@@ -14,6 +14,13 @@ public class UserController : ControllerBase {
     _userService = userService;
   }
 
+
+  //[HttpGet("{userId:Guid}")]
+  //public async Task<ActionResult> FindOneByUser(Guid userId) {
+  //  var result = await _userService.FindPostsByUser(userId + "");
+  //  return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  //}
+
   [HttpPost("register")]
   public async Task<ActionResult> Create(RegisterDTO registerDTO) {
     //Regex PasswordValidations = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");

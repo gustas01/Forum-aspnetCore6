@@ -96,6 +96,9 @@ namespace Forum.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Subject")
+                        .IsUnique();
+
                     b.ToTable("Communities");
                 });
 

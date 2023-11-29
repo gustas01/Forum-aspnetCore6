@@ -19,11 +19,6 @@ public class PostController : ControllerBase {
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
 
-  //[HttpGet("{postId:Guid}")]
-  //public async Task<ActionResult> FindOneByUser(Guid postId) {
-
-  //}
-
   [HttpPost("{communityId:Guid}")]
   [Authorize]
   public async Task<ActionResult> Create(CreatePostDTO createPostDTO, Guid communityId) {

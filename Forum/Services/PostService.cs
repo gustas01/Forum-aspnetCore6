@@ -30,14 +30,13 @@ public class PostService {
     }
   }
 
-
-  public async Task<ActionResult<RequestResponseDTO>> Create(CreatePostDTO createPostDTO, string UserId, Guid communityId) {
+  public async Task<ActionResult<RequestResponseDTO>> Create(CreatePostDTO createPostDTO, string userId, Guid communityId) {
     try {
       if(createPostDTO.Content == String.Empty || createPostDTO.Content == null || createPostDTO.Title == null || createPostDTO.Title == String.Empty)
         return new RequestResponseDTO() { Code = 400, Message = "Post vazio inválido!", Success = false };
 
       Post post = _mapper.Map<Post>(createPostDTO);
-      post.UserPoster = await _userManager.FindByIdAsync(UserId);
+      post.UserPoster = await _userManager.FindByIdAsync(userId);
       Community? community = await _context.Communities.FindAsync(communityId);
 
       //if(community == null)

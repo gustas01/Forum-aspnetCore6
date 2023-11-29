@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Forum.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231122185757_initial-tables")]
+    [Migration("20231129170622_initial-tables")]
     partial class initialtables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace Forum.Migrations
                         .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Subject")
+                        .IsUnique();
 
                     b.ToTable("Communities");
                 });

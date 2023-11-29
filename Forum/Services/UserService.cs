@@ -16,12 +16,22 @@ public class UserService {
     _mapper = mapper;
   }
 
+  //public async Task<ActionResult<RequestResponseDTO>> FindPostsByUser(string userId) {
+  //  try {
+  //    User user = await _userManager.FindByIdAsync(userId);
+  //    if(user == null) return new RequestResponseDTO() { Code = 400, Message = "Usuário não encontrado", Success = false };
+  //    return new RequestResponseDTO() { Code = 200, Message = user, Success = true };
+  //  } catch(Exception ex) {
+  //    return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+  //  }
+  //}
+
   public async Task<ActionResult<RequestResponseDTO>> Create(RegisterDTO registerDTO) {
     try {
       User user = _mapper.Map<User>(registerDTO);
       IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
       if(!result.Succeeded) return new RequestResponseDTO() { Code = 400, Message = $"{result.Errors.First().Description}", Success = false };
-      return new RequestResponseDTO() { Code = 200, Message = $"Usuário {registerDTO.UserName} criado com sucesso", Success = true };
+      return new RequestResponseDTO() { Code = 201, Message = $"Usuário {registerDTO.UserName} criado com sucesso", Success = true };
     } catch(Exception ex) {
       return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
     }

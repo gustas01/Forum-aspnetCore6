@@ -315,6 +315,12 @@ namespace Forum.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Communities_Subject",
+                table: "Communities",
+                column: "Subject",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CommunityUserMembers_UserMembersId",
                 table: "CommunityUserMembers",
                 column: "UserMembersId");

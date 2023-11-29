@@ -11,5 +11,6 @@ public class MapperProfile : Profile {
     CreateMap<Comment, UpdateCommentDTO>().ReverseMap();
     CreateMap<Post, CreatePostDTO>().ReverseMap();
     CreateMap<Post, UpdatePostDTO>().ReverseMap();
+    CreateMap<Community, CreateCommunityDTO>().ReverseMap();
   }
 }

@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Forum.Entities;
+[Index(nameof(Subject), IsUnique = true)]
 public class Community {
 
   [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +18,7 @@ public class Community {
 
   public string? AvatarUrl { get; set; }
 
-  public List<User>? UserMembers { get; set; }
-  public List<User>? UserMods { get; set; }
-  public List<Post>? Posts { get; set; }
+  public List<User>? UserMembers { get; set; } = new List<User>();
+  public List<User>? UserMods { get; set; } = new List<User>();
+  public List<Post>? Posts { get; set; } = new List<Post>();
 }
