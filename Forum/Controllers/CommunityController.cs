@@ -26,4 +26,21 @@ public class CommunityController : ControllerBase {
     var result = await _communityService.Create(createCommunityDTO, UserId);
     return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
+
+  [HttpPut("{communityId:Guid}")]
+  [Authorize]
+  public async Task<ActionResult> Update(Guid communityId, UpdateCommunityDTO updateCommunityDTO) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await _communityService.Update(updateCommunityDTO, UserId, communityId);
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  }
+
+
+  //[HttpDelete("{communityId:Guid}")]
+  //[Authorize]
+  //public async Task<ActionResult> Delete(Guid communityId) {
+  //  string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+  //  var result = await _communityService.Delete(UserId, communityId);
+  //  return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  //}
 }
