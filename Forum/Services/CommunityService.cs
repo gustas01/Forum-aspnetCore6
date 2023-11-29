@@ -80,4 +80,23 @@ public class CommunityService {
       return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
     }
   }
+
+
+  public async Task<ActionResult<RequestResponseDTO>> Delete(string? userId, Guid? communityId) {
+    try {
+      Community? community = await _context.Communities.Include(c => c.UserMods).Include(p => p.Posts).SingleOrDefaultAsync(p => p.Id == communityId);
+
+      if(community == null) return new RequestResponseDTO() { Code = 404, Message = "Comunidade apagada ou inexistente!", Success = false };
+
+      //verificando se um usuário diferente está tentando modificar comentário do atual
+      if(community.UserMods.Find(u => u.Id == userId) == null)
+        return new RequestResponseDTO() { Code = 403, Message = "Impossível apagar Comunidade sem ser um moderador", Success = false };
+
+      _context.Communities.Remove(community);
+      await _context.SaveChangesAsync();
+      return new RequestResponseDTO() { Code = 200, Message = "Comunidade apagada com sucesso!", Success = true };
+    } catch(Exception ex) {
+      return new RequestResponseDTO() { Code = 500, Message = ex.Message, Success = false };
+    }
+  }
 }

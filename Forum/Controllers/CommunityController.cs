@@ -36,11 +36,11 @@ public class CommunityController : ControllerBase {
   }
 
 
-  //[HttpDelete("{communityId:Guid}")]
-  //[Authorize]
-  //public async Task<ActionResult> Delete(Guid communityId) {
-  //  string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
-  //  var result = await _communityService.Delete(UserId, communityId);
-  //  return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
-  //}
+  [HttpDelete("{communityId:Guid}")]
+  [Authorize]
+  public async Task<ActionResult> Delete(Guid communityId) {
+    string? UserId = HttpContext.User.FindFirst("Jti")?.Value;
+    var result = await _communityService.Delete(UserId, communityId);
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
+  }
 }
