@@ -35,7 +35,7 @@ public class UserController : ControllerBase {
 
     var result = await _userService.Create(registerDTO);
 
-    return result.Value.Success ? Ok($"Usuário {registerDTO.UserName} criado com sucesso") : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
 
 
@@ -45,7 +45,7 @@ public class UserController : ControllerBase {
       return BadRequest("Crendenciais inválidas!");
 
     var result = await _userService.Login(loginDTO);
-    return result.Value.Success ? Ok(result.Value.Message) : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
 
   [Authorize]
@@ -57,6 +57,6 @@ public class UserController : ControllerBase {
     string? UserID = HttpContext.User.FindFirst("Jti")?.Value;
 
     var result = await _userService.Update(UserID, updateUserDTO);
-    return result.Value.Success ? Ok(result.Value.Message) : new ObjectResult(result?.Value) { StatusCode = result.Value.Code };
+    return new ObjectResult(result?.Value) { StatusCode = result?.Value?.Code };
   }
 }
